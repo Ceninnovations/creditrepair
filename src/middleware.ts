@@ -1,24 +1,15 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 
-// Only the marketing landing page, the sign-in/sign-up pages themselves, and
-// Clerk's own routes are public. Everything else -- upload, home, dispute
-// letters, history -- requires sign-in.
-const isPublicRoute = createRouteMatcher([
-  '/',
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/api/webhooks(.*)',
-  // DisputeGator design-system prototype (static preview, no app data)
-  '/design',
-  '/design-system',
-  '/disputegator(.*)',
-]);
-
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect();
-  }
-});
+// Login wall temporarily disabled: every route is public so the app opens
+// straight into the design with no sign-in screen. Clerk is still loaded (so
+// sign-in/account features keep working if used), it just no longer BLOCKS
+// access. To re-enable the wall, restore the auth.protect() guard:
+//
+//   const isPublicRoute = createRouteMatcher(['/', '/sign-in(.*)', '/sign-up(.*)', ...]);
+//   export default clerkMiddleware(async (auth, req) => {
+//     if (!isPublicRoute(req)) await auth.protect();
+//   });
+export default clerkMiddleware();
 
 export const config = {
   matcher: [
