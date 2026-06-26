@@ -1,0 +1,130 @@
+// Lifecycle email automations for the admin. Each entry is a triggered template
+// rendered server-side with member data and handed to the connected SMTP relay.
+// Copy is in Coach Gator's supportive voice — whole-journey framing (credit AND
+// financial future), never combative. {first} is filled per-recipient at send.
+(function () {
+  const EMAILS = [
+    {
+      key: 'welcome',
+      trigger: 'New signup',
+      fires: 'Sent immediately when an account is created',
+      icon: 'user',
+      audience: 'signup',
+      subject: 'Welcome to DisputeGator, {first} 🐊',
+      preview: 'You just took the first step toward a stronger credit future — here’s the plan.',
+      cta: 'Complete my profile',
+      detail: { type: 'credentials', url: 'app.disputegator.com/login', username: 'chad@chadnicely.com', password: 'Swamp-River-72' },
+      sent: 1284, open: 71, click: 48,
+      body: [
+        'Hi {first},',
+        'Welcome to the swamp — I’m Coach Gator, and I’ll be right beside you the whole way. You just joined thousands of members taking back control of their credit and their financial future.',
+        'Here’s where we’re headed together: find the errors holding your score back, dispute them, build a budget that actually works, pay down what you owe, and grow lasting positive credit. One step at a time.',
+        'First up — finish setting up your profile so I can pull your report and see exactly what we’re working with.',
+      ],
+    },
+    {
+      key: 'startdispute',
+      trigger: 'Profile completed',
+      fires: 'Sent when a member finishes setup and their report is loaded',
+      icon: 'fileText',
+      audience: 'profile',
+      subject: 'Your profile’s ready — let’s see what’s on your report',
+      preview: 'I reviewed all three bureaus. Let’s turn what I found into your Credit Plan.',
+      cta: 'Review my Credit Plan',
+      detail: { type: 'found', total: 12, rows: [['High', 3], ['Medium', 7], ['Low', 2]] },
+      sent: 902, open: 68, click: 51,
+      body: [
+        'Hi {first},',
+        'Great news — your profile’s all set and I’ve reviewed your credit from all three bureaus.',
+        'I spotted some items worth a closer look. Errors and unverifiable marks are far more common than people expect, and every one we clear is a chance for your score to climb.',
+        'Let’s start your first dispute round together. I’ll draft everything for you — you just review and approve.',
+      ],
+    },
+    {
+      key: 'mailed',
+      trigger: 'Letters mailed',
+      fires: 'Sent when a member’s dispute letters are approved and mailed',
+      icon: 'mail',
+      audience: 'mailed',
+      subject: 'Your dispute letters are in the mail 📬',
+      preview: 'Nice work. Here’s exactly what happens over the next 30 days.',
+      cta: 'Track my disputes',
+      detail: { type: 'recap', groups: [
+        { bureau: 'Experian', items: ['CAPITAL ONE — inaccurate late payments', 'ONEMAIN — unauthorized inquiry', '770 Lanni Ct — unrecognized address'] },
+        { bureau: 'Equifax', items: ['CCB/B&H PH — unauthorized inquiry'] },
+        { bureau: 'TransUnion', items: ['LENDCLUB BNK — inaccurate late payments', 'ALLY FINCL — inaccurate late payments'] },
+      ] },
+      sent: 1147, open: 74, click: 39,
+      body: [
+        'Hi {first},',
+        'Your dispute letters are on their way to the bureaus. That’s real momentum — well done.',
+        'Here’s what’s next: the bureaus have 30 days to investigate. Anything they can’t verify has to be corrected or removed. I’ll watch for their responses and let you know the moment something changes.',
+        'While we wait, let’s keep building. Your Budget Builder and Payoff Plan are ready when you are — a stronger score and a healthier bank account go hand in hand.',
+      ],
+    },
+    {
+      key: 'nextround',
+      trigger: 'Round ready',
+      fires: 'Sent when the 30-day investigation window closes and a new round is ready',
+      icon: 'refresh',
+      audience: 'nextround',
+      subject: 'It’s time for your next round, {first}',
+      preview: 'The 30-day window’s up. Let’s keep the momentum going.',
+      cta: 'Start my next round',
+      detail: { type: 'nextround', letters: 6, bureaus: 3, rows: [['Experian', 3], ['Equifax', 1], ['TransUnion', 2]] },
+      sent: 638, open: 66, click: 44,
+      body: [
+        'Hi {first},',
+        'The bureaus’ investigation window has closed, which means we’re ready for your next round.',
+        'Some items may already be gone — others just need another, firmer request. That’s completely normal: steady persistence is how disputes get won.',
+        'I’ve already prepped your next set of letters based on what came back. Give them a look and approve whenever you’re ready.',
+      ],
+    },
+    {
+      key: 'deleted',
+      trigger: 'Item removed',
+      fires: 'Sent the moment a disputed item is deleted from a member’s report',
+      icon: 'checkCircle',
+      audience: 'deleted',
+      subject: '🎉 An item just came off your report',
+      preview: 'This is what progress looks like. Let’s keep going.',
+      cta: 'See my score',
+      detail: { type: 'removed', items: [
+        { bureau: 'Experian', name: 'ONEMAIN — Unauthorized inquiry', severity: 'Low' },
+        { bureau: 'TransUnion', name: 'BRCLYOLDNAVY — 30-day late payment', severity: 'Medium' },
+      ] },
+      sent: 521, open: 83, click: 62,
+      body: [
+        'Hi {first},',
+        'Big news — one of the items we disputed has just been removed from your report. That’s a genuine win, and you earned it.',
+        'Every deletion is a step toward the score and the future you’re working for. I’ll keep tracking the rest and let you know as more come off.',
+        'Want to help that number climb even faster? Let’s look at your next move together.',
+      ],
+    },
+    {
+      key: 'checkin',
+      trigger: 'Check-in',
+      fires: 'Sent on a gentle cadence to members who’ve been quiet for a while',
+      icon: 'bell',
+      audience: 'checkin',
+      subject: 'How’s it going, {first}?',
+      preview: 'A quick nudge from your corner of the swamp.',
+      cta: 'Open my plan',
+      detail: { type: 'weekly', stats: [
+        { label: 'Score change', value: '+12 pts', tone: 'good' },
+        { label: 'Items removed', value: '1', tone: 'good' },
+        { label: 'Active disputes', value: '8' },
+        { label: 'Next round', value: 'in 6 days' },
+      ] },
+      sent: 1760, open: 58, click: 29,
+      body: [
+        'Hi {first},',
+        'Just checking in. Building credit is a marathon, not a sprint — and I want to make sure you’ve got everything you need for the next stretch.',
+        'Whether it’s disputing an error, sticking to your budget, chipping away at a balance, or growing new positive credit, I’m right here for the next step.',
+        'Pick up wherever you left off — your plan’s ready when you are.',
+      ],
+    },
+  ];
+
+  window.DG_EMAILS = EMAILS;
+})();

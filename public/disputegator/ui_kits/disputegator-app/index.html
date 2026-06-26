@@ -1,0 +1,69 @@
+<!-- @dsCard group="DisputeGator App" viewport="1320x900" name="DisputeGator App" subtitle="Hub layout: dashboard, upload, dispute letters & action tracker" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DisputeGator</title>
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  @media print {
+    body * { visibility: hidden !important; }
+    #dg-print-doc, #dg-print-doc * { visibility: visible !important; }
+    #dg-print-doc { position: absolute !important; left: 0; top: 0; width: 100%; display: block !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; }
+    .dg-noprint { display: none !important; }
+    @page { margin: 18mm; }
+  }
+  @keyframes dg-pop { 0% { transform: scale(1); } 40% { transform: scale(1.32); } 70% { transform: scale(.92); } 100% { transform: scale(1); } }
+  @keyframes dg-ring { 0% { transform: scale(.6); opacity: .55; } 100% { transform: scale(2.1); opacity: 0; } }
+  @keyframes dg-confetti { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(.3) rotate(var(--rot)); opacity: 0; } }
+  @keyframes dg-shimmer { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+  @keyframes wfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  .dg-noscroll { scrollbar-width: none; -ms-overflow-style: none; }
+  .dg-noscroll::-webkit-scrollbar { width: 0; height: 0; }
+  @keyframes dg-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @keyframes dg-cardglow { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,0); } 35% { box-shadow: 0 0 0 4px rgba(22,163,74,.18), 0 14px 40px rgba(22,163,74,.20); } 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); } }
+  .dg-plan-enter > * { animation: dg-rise .6s cubic-bezier(.22,.61,.36,1) both; }
+  .dg-plan-enter > *:nth-child(1) { animation-delay: .02s; }
+  .dg-plan-enter > *:nth-child(2) { animation-delay: .10s; }
+  .dg-plan-enter > *:nth-child(3) { animation-delay: .18s; }
+  .dg-plan-enter > *:nth-child(4) { animation-delay: .26s; }
+  .dg-plan-enter > *:nth-child(5) { animation-delay: .34s; }
+  .dg-plan-enter > *:nth-child(6) { animation-delay: .42s; }
+  @media (prefers-reduced-motion: reduce) { .dg-plan-enter > * { animation: none !important; } }
+  .dg-tap { cursor: pointer; transition: box-shadow .15s, transform .15s, background .15s, border-color .15s; }
+  .dg-tap:hover { box-shadow: 0 6px 20px rgba(15,23,42,.10); transform: translateY(-1px); border-color: var(--green-300,#86efac); }
+  .dg-tap:active { transform: translateY(0); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  // /admin convenience: #admin (or a path ending in /admin) opens the back office.
+  (function () {
+    var h = (location.hash || '').toLowerCase();
+    if (h === '#admin' || h === '#/admin' || /\/admin\/?$/.test(location.pathname)) location.replace('admin.html');
+  })();
+</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js?v=gauge8"></script>
+<script src="data.js"></script>
+<script type="text/babel" src="welcome.jsx"></script>
+<script type="text/babel" src="shell.jsx"></script>
+<script type="text/babel" src="upload.jsx"></script>
+<script type="text/babel" src="account.jsx"></script>
+<script type="text/babel" src="wakeup.jsx"></script>
+<script type="text/babel" src="budget.jsx"></script>
+<script type="text/babel" src="grow.jsx"></script>
+<script type="text/babel" src="payoff.jsx"></script>
+<script type="text/babel" src="payofftracker.jsx"></script>
+<script type="text/babel" src="commit.jsx"></script>
+<script type="text/babel" src="pledge.jsx"></script>
+<script type="text/babel" src="dashboard.jsx"></script>
+<script type="text/babel" src="letters.jsx"></script>
+<script type="text/babel" src="tracking.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+</body>
+</html>

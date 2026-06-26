@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Credit Dashboard" description="DisputeGator 'Your Credit Plan' dashboard — sidebar hub, tri-bureau credit overview, and dispute-letters CTA" -->
+<helmet>
+  <script src="./ds-base.js"></script>
+</helmet>
+<div style="min-height:100vh;background:#e9edf5;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:18px 24px;">
+  <div style="display:flex;gap:18px;align-items:flex-start;max-width:1320px;margin:0 auto;">
+
+    <!-- Sidebar -->
+    <aside style="width:248px;flex:none;display:flex;flex-direction:column;background:#fff;border:1px solid #e7ebf2;border-radius:22px;box-shadow:0 24px 60px -28px rgba(15,27,51,.22),0 2px 8px rgba(15,27,51,.05);overflow:hidden;align-self:flex-start;position:sticky;top:18px;">
+      <div style="padding:20px 18px;border-bottom:1px solid #eef1f6;display:flex;align-items:center;gap:10px;">
+        <img src="../../assets/mark.png" alt="" style="width:30px;height:30px;flex:none;" />
+        <span style="font-family:'Arial Black','Impact',sans-serif;font-weight:900;font-size:15.5px;letter-spacing:-.01em;line-height:1;"><span style="color:#0f1b33;">DISPUTE</span><span style="color:#53a02c;">GATOR</span></span>
+      </div>
+      <nav style="flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;margin-bottom:10px;font-size:14px;font-weight:700;color:#15803d;background:#f0fdf4;border:1px solid #bbf7d0;">
+          <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="uploadCloud" size="17" hint-size="17px,17px"></x-import>New Analysis
+        </div>
+        <div style="height:1px;background:#eef1f6;margin:4px 0 10px;"></div>
+        <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:700;color:#15803d;background:#f0fdf4;">
+          <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="home" size="17" hint-size="17px,17px"></x-import>Home
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#475569;">
+          <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="fileText" size="17" hint-size="17px,17px"></x-import>Dispute Letters
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#475569;">
+          <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="checkSquare" size="17" hint-size="17px,17px"></x-import>Action Tracker
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#475569;">
+          <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="clock" size="17" hint-size="17px,17px"></x-import>Letter Tracking
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#475569;">
+          <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="layers" size="17" hint-size="17px,17px"></x-import>History
+        </div>
+      </nav>
+      <div style="padding:14px 18px;border-top:1px solid #eef1f6;display:flex;align-items:center;gap:10px;">
+        <span style="width:32px;height:32px;border-radius:50%;background:linear-gradient(155deg,#22c55e,#15803d);display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;flex:none;">JM</span>
+        <div style="min-width:0;"><div style="font-size:13px;font-weight:700;color:#0f1b33;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Jordan Miles</div><div style="font-size:11.5px;color:#64748b;">Free plan</div></div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main style="flex:1;min-width:0;background:#fbfcfe;border:1px solid #e7ebf2;border-radius:22px;box-shadow:0 24px 60px -28px rgba(15,27,51,.22),0 2px 8px rgba(15,27,51,.05);overflow:hidden;">
+      <div style="padding:36px 38px 44px;">
+
+        <!-- Header -->
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px;">
+          <div>
+            <h1 style="margin:0;font-size:34px;font-weight:800;letter-spacing:-.02em;color:#0f1b33;">Your Credit Plan</h1>
+            <p style="margin:7px 0 0;color:#64748b;font-size:14.5px;">Review your credit report analysis and recommended actions.</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:8px 14px;">
+            <span style="color:#16a34a;display:grid;place-items:center;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="checkCircle" size="17" hint-size="17px,17px"></x-import></span>
+            <div><div style="font-weight:700;font-size:13px;color:#16a34a;">Analysis completed</div><div style="font-size:12px;color:#64748b;">May 15, 2026 • 1:24 PM</div></div>
+          </div>
+        </div>
+
+        <!-- Credit Overview -->
+        <section style="background:#fff;border:1px solid #e7ebf2;border-radius:16px;box-shadow:0 1px 2px rgba(15,27,51,.04),0 1px 3px rgba(15,27,51,.05);padding:26px;margin-bottom:16px;">
+          <h2 style="font-size:16px;font-weight:700;color:#0f1b33;margin:0 0 18px;">Credit Overview</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1.7fr;">
+            <div style="border-right:1px solid #eef1f6;">
+              <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.ScoreCard" bureau="Experian" score="640" rating="Fair" hint-size="100%,150px"></x-import>
+            </div>
+            <div style="border-right:1px solid #eef1f6;">
+              <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.ScoreCard" bureau="Equifax" score="655" rating="Fair" hint-size="100%,150px"></x-import>
+            </div>
+            <div style="border-right:1px solid #eef1f6;">
+              <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.ScoreCard" bureau="TransUnion" score="648" rating="Fair" hint-size="100%,150px"></x-import>
+            </div>
+            <div style="border-left:1px solid #eef1f6;padding-left:28px;display:flex;align-items:center;gap:22px;">
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                  <span style="font-weight:700;font-size:15px;color:#0f1b33;">Overall Assessment</span>
+                  <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Badge" tone="fair" hint-size="48px,22px">Fair</x-import>
+                </div>
+                <p style="margin:0;font-size:13.5px;color:#475569;line-height:1.6;">Your credit shows a mix of positive and negative factors. Several negative items are impacting your scores, but there are strong foundations to build on.</p>
+              </div>
+              <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.CreditDonut" value="64" hint-size="132px,132px"></x-import>
+            </div>
+          </div>
+        </section>
+
+        <!-- Strengths / Weaknesses -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+          <section style="background:#fff;border:1px solid #e7ebf2;border-top:3px solid #16a34a;border-radius:16px;box-shadow:0 1px 2px rgba(15,27,51,.04),0 1px 3px rgba(15,27,51,.05);padding:26px;">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;color:#16a34a;">
+              <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="checkCircle" size="22" hint-size="22px,22px"></x-import>
+              <h2 style="font-size:16px;font-weight:700;color:#0f1b33;margin:0;">Strengths</h2>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;color:#475569;font-size:14px;">
+              <div style="display:flex;gap:10px;"><span style="color:#16a34a;flex:none;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="checkCircle" size="17" hint-size="17px,17px"></x-import></span>No bankruptcies found</div>
+              <div style="display:flex;gap:10px;"><span style="color:#16a34a;flex:none;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="checkCircle" size="17" hint-size="17px,17px"></x-import></span>Low credit utilization (18%)</div>
+              <div style="display:flex;gap:10px;"><span style="color:#16a34a;flex:none;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="checkCircle" size="17" hint-size="17px,17px"></x-import></span>8 accounts in good standing</div>
+            </div>
+          </section>
+          <section style="background:#fff;border:1px solid #e7ebf2;border-top:3px solid #dc2626;border-radius:16px;box-shadow:0 1px 2px rgba(15,27,51,.04),0 1px 3px rgba(15,27,51,.05);padding:26px;">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;color:#dc2626;">
+              <x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="alert" size="22" hint-size="22px,22px"></x-import>
+              <h2 style="font-size:16px;font-weight:700;color:#0f1b33;margin:0;">Weaknesses</h2>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;color:#475569;font-size:14px;">
+              <div style="display:flex;gap:10px;"><span style="color:#dc2626;flex:none;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="xCircle" size="17" hint-size="17px,17px"></x-import></span>2 collection accounts</div>
+              <div style="display:flex;gap:10px;"><span style="color:#dc2626;flex:none;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="xCircle" size="17" hint-size="17px,17px"></x-import></span>1 charge-off account</div>
+              <div style="display:flex;gap:10px;"><span style="color:#dc2626;flex:none;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="xCircle" size="17" hint-size="17px,17px"></x-import></span>5 recent hard inquiries</div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Dispute Letters CTA -->
+        <div style="background:linear-gradient(135deg,#052e16 0%,#14532d 100%);border-radius:18px;padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;border:1px solid #15803d;cursor:pointer;">
+          <div style="display:flex;align-items:center;gap:18px;">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.12);display:grid;place-items:center;flex:none;color:#fff;"><x-import component-from-global-scope="DisputeGatorDesignSystem_dde977.Icon" name="fileText" size="26" hint-size="26px,26px"></x-import></div>
+            <div>
+              <div style="font-weight:800;font-size:18px;color:#fff;margin-bottom:4px;">View Dispute Letters</div>
+              <div style="font-size:13.5px;color:rgba(255,255,255,0.65);line-height:1.5;">4 negative items — targeted letters for Experian, Equifax &amp; TransUnion, pre-filled with FCRA language.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:#16a34a;color:#fff;border-radius:12px;padding:12px 22px;font-weight:700;font-size:14.5px;white-space:nowrap;box-shadow:0 4px 16px rgba(22,163,74,0.35);flex:none;">View Dispute Letters →</div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,35 @@
+/* ============================================================
+   DisputeGator — Spacing, radii & elevation tokens
+   ============================================================ */
+:root {
+  /* ---- Radii ---- */
+  --r-shell: 22px;   /* app shell / sidebar */
+  --r-card: 16px;    /* cards, modals */
+  --r-md: 14px;      /* callouts, upload zone, letter cards */
+  --r-control: 11px; /* inputs */
+  --r-btn: 10px;     /* buttons */
+  --r-sm: 8px;       /* small chips, icon buttons */
+  --r-pill: 999px;   /* badges, score range pill */
+
+  /* ---- Spacing scale (px) ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 18px;
+  --sp-6: 22px;
+  --sp-7: 26px;
+  --sp-8: 36px;
+  --gap-card: 16px;  /* gap between dashboard cards */
+
+  /* ---- Elevation ---- */
+  --sh-card: 0 1px 2px rgba(15,27,51,.04), 0 1px 3px rgba(15,27,51,.05);
+  --sh-shell: 0 24px 60px -28px rgba(15,27,51,.22), 0 2px 8px rgba(15,27,51,.05);
+  --sh-pop: 0 22px 50px -16px rgba(15,27,51,.30), 0 4px 12px rgba(15,27,51,.10);
+  --sh-btn-primary: 0 8px 18px -8px rgba(22,163,74,.6);
+  --sh-mark: 0 6px 14px -4px rgba(22,163,74,.55);
+
+  /* ---- Layout ---- */
+  --maxw: 1180px;
+  --sidebar-w: 248px;
+}

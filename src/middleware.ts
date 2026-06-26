@@ -8,6 +8,10 @@ const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/webhooks(.*)',
+  // DisputeGator design-system prototype (static preview, no app data)
+  '/design',
+  '/design-system',
+  '/disputegator(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {

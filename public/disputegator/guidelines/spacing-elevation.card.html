@@ -1,0 +1,17 @@
+<!-- @dsCard group="Spacing" viewport="700x190" name="Elevation" subtitle="Shadow system — card, shell, popover & primary button" -->
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; background: var(--bg); padding: 30px 24px; font-family: var(--font-ui); display: flex; gap: 30px; align-items: center; flex-wrap: wrap; }
+  .col { text-align: center; }
+  .box { width: 120px; height: 70px; background: #fff; border: 1px solid var(--border); border-radius: 14px; }
+  .n { font-size: 12px; font-weight: 700; color: var(--ink); margin-top: 12px; }
+  .h { font-size: 11px; font-family: var(--font-mono); color: var(--ink-3); }
+</style></head>
+<body>
+  <div class="col"><div class="box" style="box-shadow:var(--sh-card);"></div><div class="n">sh-card</div><div class="h">cards</div></div>
+  <div class="col"><div class="box" style="box-shadow:var(--sh-shell);"></div><div class="n">sh-shell</div><div class="h">app shell / sidebar</div></div>
+  <div class="col"><div class="box" style="box-shadow:var(--sh-pop);"></div><div class="n">sh-pop</div><div class="h">modals / popovers</div></div>
+  <div class="col"><div class="box" style="background:var(--green-600);border-color:var(--green-600);box-shadow:var(--sh-btn-primary);"></div><div class="n">sh-btn-primary</div><div class="h">green glow</div></div>
+</body></html>

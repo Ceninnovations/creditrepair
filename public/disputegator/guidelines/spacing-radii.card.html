@@ -1,0 +1,20 @@
+<!-- @dsCard group="Spacing" viewport="700x170" name="Radii" subtitle="Corner radius scale — shell to pill" -->
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; background: #fff; padding: 24px; font-family: var(--font-ui); display: flex; gap: 22px; align-items: flex-end; flex-wrap: wrap; }
+  .col { text-align: center; }
+  .box { width: 88px; height: 64px; background: var(--green-50); border: 1.5px solid var(--green-600); }
+  .n { font-size: 12px; font-weight: 700; color: var(--ink); margin-top: 9px; }
+  .h { font-size: 11px; font-family: var(--font-mono); color: var(--ink-3); }
+</style></head>
+<body>
+  <div class="col"><div class="box" style="border-radius:var(--r-shell);"></div><div class="n">shell</div><div class="h">22px</div></div>
+  <div class="col"><div class="box" style="border-radius:var(--r-card);"></div><div class="n">card</div><div class="h">16px</div></div>
+  <div class="col"><div class="box" style="border-radius:var(--r-md);"></div><div class="n">md</div><div class="h">14px</div></div>
+  <div class="col"><div class="box" style="border-radius:var(--r-control);"></div><div class="n">control</div><div class="h">11px</div></div>
+  <div class="col"><div class="box" style="border-radius:var(--r-btn);"></div><div class="n">btn</div><div class="h">10px</div></div>
+  <div class="col"><div class="box" style="border-radius:var(--r-sm);"></div><div class="n">sm</div><div class="h">8px</div></div>
+  <div class="col"><div class="box" style="border-radius:var(--r-pill);width:64px;"></div><div class="n">pill</div><div class="h">999px</div></div>
+</body></html>

@@ -1,0 +1,66 @@
+/* ============================================================
+   DisputeGator — Color tokens
+   Base values + semantic aliases. The product brand reads green
+   throughout (the legacy `--blue-*` names are kept as aliases for
+   back-compat with the original codebase, but resolve to green).
+   ============================================================ */
+:root {
+  /* ---- Surfaces ---- */
+  --bg: #e9edf5;          /* app backdrop behind the shell */
+  --shell: #fbfcfe;       /* rounded app shell */
+  --card: #ffffff;        /* card surface */
+  --card-soft: #f7f9fc;   /* inset / muted panel */
+
+  /* ---- Ink (text) ---- */
+  --ink: #0f1b33;         /* primary heading / value text */
+  --ink-2: #475569;       /* body text */
+  --ink-3: #64748b;       /* secondary / captions */
+  --ink-4: #8a97a8;       /* faint / empty-state text */
+  --muted: #94a3b8;       /* icons, hint text, axis labels */
+
+  /* ---- Lines ---- */
+  --border: #e7ebf2;      /* default card / control border */
+  --border-2: #eef1f6;    /* soft inner divider */
+
+  /* ---- Brand: Gator Green ---- */
+  --green-600: #16a34a;   /* primary action green */
+  --green-700: #15803d;   /* hover / strong */
+  --green-800: #166534;   /* ink-on-tint, headings on tint */
+  --green-50:  #f0fdf4;   /* tint background */
+  --green-100: #dcfce7;   /* badge / chip background */
+  --green-200: #bbf7d0;   /* tint border */
+  --gator:     #53a02c;   /* logo-matched gator green (wordmark) */
+  --gator-dark:#010d18;   /* logo shield near-black */
+
+  /* legacy aliases (original code used `--blue*`; kept = green) */
+  --blue: var(--green-600);
+  --blue-strong: var(--green-700);
+  --blue-ink: var(--green-800);
+  --blue-tintbg: var(--green-50);
+
+  /* ---- Semantic ---- */
+  --green: #16a34a;       --green-bg: #dcfce7;
+  --red: #dc2626;         --red-bg: #fde8e8;
+  --amber: #b45309;       --amber-bg: #fdf0d5;
+
+  /* ---- Credit bureaus ---- */
+  --experian: #2f6df0;
+  --equifax: #c0202e;
+  --transunion: #1c9aa8;
+
+  /* ---- Semantic aliases ---- */
+  --surface-app: var(--bg);
+  --surface-shell: var(--shell);
+  --surface-card: var(--card);
+  --surface-inset: var(--card-soft);
+  --text-heading: var(--ink);
+  --text-body: var(--ink-2);
+  --text-muted: var(--ink-3);
+  --action-primary: var(--green-600);
+  --action-primary-hover: var(--green-700);
+  --focus-ring: rgba(22,163,74,.14);
+
+  /* dark CTA gradient (used on the "View Dispute Letters" panel) */
+  --grad-deep-green: linear-gradient(135deg, #052e16 0%, #14532d 100%); /* @kind color */
+  --grad-mark: linear-gradient(155deg, #22c55e, #15803d); /* @kind color */
+}

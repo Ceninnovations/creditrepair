@@ -1,0 +1,53 @@
+<!-- @dsCard group="Components" viewport="700x280" name="Credit — Bureau marks, Donut & Score cards" subtitle="Credit-specific visualizations" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { background: var(--bg); padding: 22px; }
+  .grp { background: #fff; border: 1px solid var(--border); border-radius: var(--r-card); box-shadow: var(--sh-card); padding: 22px 24px; display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+  .lbl { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  .scores { display: flex; flex: 1; min-width: 320px; }
+  .scores > div + div { border-left: 1px solid var(--border-2); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const { BureauMark, CreditDonut, ScoreCard } = window.DisputeGatorDesignSystem_dde977;
+  function Demo() {
+    return (
+      <div className="grp">
+        <div>
+          <div className="lbl">Bureau marks</div>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <BureauMark bureau="experian" />
+            <BureauMark bureau="equifax" />
+            <BureauMark bureau="transunion" />
+          </div>
+        </div>
+        <div>
+          <div className="lbl">Credit health</div>
+          <CreditDonut value={64} />
+        </div>
+        <div style={{ flex: 1, minWidth: 320 }}>
+          <div className="lbl">Bureau scores</div>
+          <div className="scores">
+            <ScoreCard bureau="Experian" score={640} rating="Fair" />
+            <ScoreCard bureau="Equifax" score={655} rating="Fair" />
+            <ScoreCard bureau="TransUnion" score={648} rating="Fair" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>
