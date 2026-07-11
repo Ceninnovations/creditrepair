@@ -56,7 +56,7 @@
   .search-box input {
     width: 100%;
     padding: 12px 14px 12px 40px;
-    font-size: 15px;
+    font-size: 16px; /* 16px prevents iOS from auto-zooming on focus */
     background: var(--panel-2);
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -107,7 +107,55 @@
   mark { background: var(--hit); color: var(--hit-text); border-radius: 3px; padding: 0 1px; }
   .empty { text-align: center; padding: 50px; color: var(--muted); }
   .muted-cell { color: #566079; }
-  .card-detail { display:none; }
+
+  /* ---------- Mobile: turn each row into a stacked card ---------- */
+  @media (max-width: 760px) {
+    header { padding: 14px 16px; }
+    h1 { font-size: 16px; }
+    .wrap { padding: 16px 12px 60px; }
+    .loader { padding: 28px 16px; }
+
+    .controls { gap: 10px; }
+    .search-box { flex-basis: 100%; min-width: 0; }
+    select, .btn { flex: 1; min-width: 0; text-align: center; }
+
+    .table-wrap { overflow-x: visible; border: none; border-radius: 0; }
+    table, thead, tbody, tr, td { display: block; width: 100%; }
+    thead { position: absolute; left: -9999px; } /* hide the header row */
+
+    tbody tr {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+      margin-bottom: 12px;
+      padding: 6px 4px;
+    }
+    tbody tr:nth-child(even) { background: var(--panel); }
+    tbody tr:hover { background: var(--panel); }
+
+    tbody td {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      max-width: none;
+      white-space: normal;
+      word-break: break-word;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+    tbody td:last-child { border-bottom: none; }
+    tbody td::before {
+      content: attr(data-label);
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: capitalize;
+      flex: 0 0 42%;
+    }
+    /* On a phone, drop the empty "—" fields entirely to keep cards short */
+    tbody td.muted-cell { display: none; }
+    .empty { display: block; }
+  }
 </style>
 </head>
 <body>
@@ -278,8 +326,9 @@ function render(query) {
     html += '<tr>';
     for (var c = 0; c < headers.length; c++) {
       var val = clean(rows[ri][c]);
-      if (val === '') html += '<td class="muted-cell">—</td>';
-      else html += '<td title="' + escapeHtml(val) + '">' + highlight(val, terms) + '</td>';
+      var label = escapeHtml(headers[c] || ('Column ' + (c + 1)));
+      if (val === '') html += '<td class="muted-cell" data-label="' + label + '">—</td>';
+      else html += '<td data-label="' + label + '" title="' + escapeHtml(val) + '">' + highlight(val, terms) + '</td>';
     }
     html += '</tr>';
   }
