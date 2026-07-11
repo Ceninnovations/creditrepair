@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SMC Customer Search</title>
+<style>
+  :root {
+    --bg: #0f1420;
+    --panel: #171d2b;
+    --panel-2: #1e2536;
+    --border: #2a3348;
+    --text: #e6e9f0;
+    --muted: #8b94a8;
+    --accent: #4f7cff;
+    --accent-soft: #23304f;
+    --hit: #3a2f12;
+    --hit-text: #ffd479;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+  }
+  header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: .2px; }
+  .sub { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+  .wrap { padding: 20px 24px 60px; max-width: 1400px; margin: 0 auto; }
+
+  .loader {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    background: var(--panel);
+    transition: border-color .15s, background .15s;
+    cursor: pointer;
+  }
+  .loader.drag { border-color: var(--accent); background: var(--accent-soft); }
+  .loader h2 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+  .loader p { margin: 4px 0; color: var(--muted); }
+  input[type=file] { display: none; }
+
+  .controls { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+  .search-box { flex: 1; min-width: 260px; position: relative; }
+  .search-box input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    font-size: 15px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+  .search-box svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+  select, .btn {
+    padding: 11px 14px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+  }
+  .btn:hover { border-color: var(--accent); }
+
+  .meta { color: var(--muted); font-size: 12.5px; margin: 0 0 12px; }
+  .meta b { color: var(--text); }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  thead th {
+    position: sticky; top: 0;
+    background: var(--panel);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+    text-transform: capitalize;
+  }
+  tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  tbody tr:hover { background: var(--panel-2); }
+  tbody tr:nth-child(even) { background: rgba(255,255,255,.015); }
+  mark { background: var(--hit); color: var(--hit-text); border-radius: 3px; padding: 0 1px; }
+  .empty { text-align: center; padding: 50px; color: var(--muted); }
+  .muted-cell { color: #566079; }
+  .card-detail { display:none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>SMC Customer Search</h1>
+  <div class="sub">Search names, emails, phones, addresses and more. Everything runs in your browser — no data leaves your computer.</div>
+</header>
+
+<div class="wrap">
+  <div id="loader" class="loader">
+    <h2>Load your customer database</h2>
+    <p>Click here, or drag &amp; drop your <b>.csv</b> file</p>
+    <p style="font-size:12px;">(e.g. Resultssmccustomerfinal.csv)</p>
+    <input type="file" id="file" accept=".csv,text/csv" />
+  </div>
+
+  <div id="app" style="display:none;">
+    <div class="controls">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <input id="q" type="text" placeholder="Search for anything — a name, email, phone number, city…" autocomplete="off" />
+      </div>
+      <select id="field" title="Limit search to one column">
+        <option value="">All fields</option>
+      </select>
+      <button class="btn" id="reset">Load different file</button>
+    </div>
+    <p class="meta" id="meta"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr id="head"></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+var MAX_RESULTS = 500;   // rows rendered at once (keeps the UI fast)
+var headers = [];        // column names
+var rows = [];           // array of arrays
+var lower = [];          // per-row concatenated lowercase string for fast search
+
+var loader = document.getElementById('loader');
+var fileInput = document.getElementById('file');
+var app = document.getElementById('app');
+var q = document.getElementById('q');
+var fieldSel = document.getElementById('field');
+var headEl = document.getElementById('head');
+var rowsEl = document.getElementById('rows');
+var metaEl = document.getElementById('meta');
+
+/* ---------- CSV parsing (handles quotes, embedded commas & newlines) ---------- */
+function parseCSV(text) {
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1); // strip BOM
+  var out = [], row = [], field = '', i = 0, inQuotes = false, c;
+  while (i < text.length) {
+    c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+        inQuotes = false; i++; continue;
+      }
+      field += c; i++; continue;
+    }
+    if (c === '"') { inQuotes = true; i++; continue; }
+    if (c === ',') { row.push(field); field = ''; i++; continue; }
+    if (c === '\r') { i++; continue; }
+    if (c === '\n') { row.push(field); out.push(row); row = []; field = ''; i++; continue; }
+    field += c; i++;
+  }
+  if (field.length || row.length) { row.push(field); out.push(row); }
+  return out;
+}
+
+function clean(v) {
+  if (v == null) return '';
+  var t = v.trim();
+  return (t === 'NULL') ? '' : t;
+}
+
+/* ---------- Load ---------- */
+function handleFile(file) {
+  if (!file) return;
+  loader.querySelector('h2').textContent = 'Reading ' + file.name + '…';
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    var parsed = parseCSV(e.target.result);
+    if (!parsed.length) { alert('That file looks empty.'); return; }
+    headers = parsed[0].map(function (h) { return h.trim(); });
+    rows = parsed.slice(1).filter(function (r) { return r.some(function (c) { return clean(c) !== ''; }); });
+    lower = rows.map(function (r) { return r.join('  ').toLowerCase(); });
+    buildUI(file.name);
+  };
+  reader.onerror = function () { alert('Could not read that file.'); };
+  reader.readAsText(file);
+}
+
+function buildUI(name) {
+  headEl.innerHTML = '';
+  headers.forEach(function (h) {
+    var th = document.createElement('th');
+    th.textContent = h || '—';
+    headEl.appendChild(th);
+  });
+  fieldSel.innerHTML = '<option value="">All fields</option>';
+  headers.forEach(function (h, idx) {
+    var o = document.createElement('option');
+    o.value = String(idx);
+    o.textContent = h || ('Column ' + (idx + 1));
+    fieldSel.appendChild(o);
+  });
+  loader.style.display = 'none';
+  app.style.display = 'block';
+  document.querySelector('.sub').textContent = name + ' — ' + rows.length.toLocaleString() + ' records loaded';
+  q.focus();
+  render('');
+}
+
+/* ---------- Search ---------- */
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, function (m) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+  });
+}
+function highlight(text, terms) {
+  var safe = escapeHtml(text);
+  if (!terms.length) return safe;
+  var re = new RegExp('(' + terms.map(function (t) {
+    return t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }).join('|') + ')', 'gi');
+  return safe.replace(re, '<mark>$1</mark>');
+}
+
+function matches(idx, terms, fieldIdx) {
+  if (fieldIdx === '') {
+    var hay = lower[idx];
+    for (var t = 0; t < terms.length; t++) if (hay.indexOf(terms[t]) === -1) return false;
+    return true;
+  }
+  var cell = (rows[idx][fieldIdx] || '').toLowerCase();
+  for (var j = 0; j < terms.length; j++) if (cell.indexOf(terms[j]) === -1) return false;
+  return true;
+}
+
+function render(query) {
+  var fieldIdx = fieldSel.value;
+  var terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  var found = [], shown = 0;
+
+  for (var i = 0; i < rows.length && found.length < MAX_RESULTS; i++) {
+    if (!terms.length || matches(i, terms, fieldIdx)) found.push(i);
+  }
+  // count total matches (for the meta line) without rendering them all
+  var total = found.length;
+  if (found.length === MAX_RESULTS && terms.length) {
+    total = 0;
+    for (var k = 0; k < rows.length; k++) if (matches(k, terms, fieldIdx)) total++;
+  } else if (!terms.length) {
+    total = rows.length;
+  }
+
+  var html = '';
+  for (var r = 0; r < found.length; r++) {
+    var ri = found[r];
+    html += '<tr>';
+    for (var c = 0; c < headers.length; c++) {
+      var val = clean(rows[ri][c]);
+      if (val === '') html += '<td class="muted-cell">—</td>';
+      else html += '<td title="' + escapeHtml(val) + '">' + highlight(val, terms) + '</td>';
+    }
+    html += '</tr>';
+  }
+  rowsEl.innerHTML = html || '<tr><td colspan="' + headers.length + '" class="empty">No matches found.</td></tr>';
+
+  if (!terms.length) {
+    metaEl.innerHTML = 'Showing first <b>' + found.length.toLocaleString() + '</b> of <b>' + rows.length.toLocaleString() + '</b> records. Type above to search.';
+  } else {
+    var capped = total > MAX_RESULTS ? (' — showing first <b>' + MAX_RESULTS + '</b>') : '';
+    metaEl.innerHTML = '<b>' + total.toLocaleString() + '</b> match' + (total === 1 ? '' : 'es') + capped + '.';
+  }
+}
+
+/* ---------- Events ---------- */
+var debounce;
+q.addEventListener('input', function () {
+  clearTimeout(debounce);
+  debounce = setTimeout(function () { render(q.value.trim()); }, 120);
+});
+fieldSel.addEventListener('change', function () { render(q.value.trim()); });
+
+loader.addEventListener('click', function () { fileInput.click(); });
+fileInput.addEventListener('change', function (e) { handleFile(e.target.files[0]); });
+document.getElementById('reset').addEventListener('click', function () {
+  app.style.display = 'none';
+  loader.style.display = 'block';
+  loader.querySelector('h2').textContent = 'Load your customer database';
+  q.value = '';
+  fileInput.value = '';
+});
+
+['dragenter', 'dragover'].forEach(function (ev) {
+  loader.addEventListener(ev, function (e) { e.preventDefault(); loader.classList.add('drag'); });
+});
+['dragleave', 'drop'].forEach(function (ev) {
+  loader.addEventListener(ev, function (e) { e.preventDefault(); loader.classList.remove('drag'); });
+});
+loader.addEventListener('drop', function (e) {
+  var f = e.dataTransfer.files[0];
+  if (f) handleFile(f);
+});
+</script>
+</body>
+</html>
