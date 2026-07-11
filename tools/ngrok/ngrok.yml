@@ -1,0 +1,26 @@
+# ngrok config for the creditrepair project.
+#
+# One-time setup:
+#   1. Make a free account at https://ngrok.com and copy your authtoken
+#      from https://dashboard.ngrok.com/get-started/your-authtoken
+#   2. Run:  ngrok config add-authtoken <YOUR_TOKEN>
+#      (this writes the token to ngrok's own config — no need to paste it here)
+#
+# Then start a tunnel by name, e.g.:
+#   ngrok start --config tools/ngrok/ngrok.yml search
+#   ngrok start --config tools/ngrok/ngrok.yml app
+#
+# ...or just use tools/ngrok/start.sh which does it all for you.
+
+version: "3"
+
+tunnels:
+  # The SMC customer search tool (static site served by serve.mjs on :8080)
+  search:
+    proto: http
+    addr: 8080
+
+  # The Next.js credit-repair app (npm run dev on :3000)
+  app:
+    proto: http
+    addr: 3000
